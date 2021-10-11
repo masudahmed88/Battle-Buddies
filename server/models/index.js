@@ -1,5 +1,5 @@
 const User = require('./User');
 const Game = require('./Game');
-const SteamAccount = require('./SteamAccount');
+const Friend = require('./Friend');
 
-module.exports = { User, Game, SteamAccount};
+module.exports = { User, Game, Friend};
