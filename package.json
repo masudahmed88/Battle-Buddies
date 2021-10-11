@@ -1,5 +1,6 @@
 
-  "name": "Battle Buddies",
+  {
+  "name": "battle-buddies",
   "version": "0.0.1",
   "description": "Find Friends for the Fight",
   "main": "server/server.js",

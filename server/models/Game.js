@@ -5,11 +5,11 @@ const bcrypt = require('bcrypt');
 const Order = require('./Order');
 
 const gameSchema = new Schema({
-  gameName: {
+    name: {
     type: String,
     required: true
   },
-  appID: {
+    appid: {
       type: Number,
       required: true
   }
