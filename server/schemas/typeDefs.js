@@ -7,13 +7,16 @@ const typeDefs = gql`
     appid: Int
   }
 
-
   type User {
     _id: ID
     firstName: String!
     lastName: String!
     email: String!
+    password: String!
     steamID: String!
+    games: [Game]
+    friends: [Friend]
+    isPremium: Boolean!
   }
 
   type Friend {
@@ -22,7 +25,7 @@ const typeDefs = gql`
   }
 
   type Auth {
-    token: ID
+    token: ID!
     user: User
   }
 
@@ -30,15 +33,15 @@ const typeDefs = gql`
     me: User
     myGames: [Game] 
     myFriends: [Friend]
-    compareFriendsOwnedGames: (friend: ID): [Game] 
-    findFriendsWithGames: (game: ID): [Friend]
+    compareFriendOwnedGames(friend: ID): [Game] 
+    findFriendsWithGame(game: ID): [Friend]
 
   }
 
   type Mutation {
     createUser(firstName: String!, lastName: String!, email: String!, password: String!, steamID: String!): Auth
-    updateUser(firstName: String, lastName: String, email: String, password: String, isPremium: Boolean!): User
-    deleteUser(_ID): User
+    updateUser(firstName: String!, lastName: String!, email: String!, password: String!, isPremium: Boolean!): User
+    deleteUser: User
     login(email: String!, password: String!): Auth
   }
 `;

@@ -5,13 +5,6 @@ const gameSeedData  =require('./steamGames.json');
 
 db.once('open', async () => {
 
-
-  await Game.deleteMany();
-
-  const games = await Game.bulkCreate(gameSeedData);
-
-  console.log('games seeded');
-
   await User.deleteMany();
 
   await User.create({
@@ -28,13 +21,8 @@ db.once('open', async () => {
     lastName: 'Holt',
     email: 'eholt@testmail.com',
     password: 'password12345'
-    
+    steamID: '76561197960435530',
   });
-
-  await SteamAccount.create({ 
-      steamID: '76561197960435530',
-      games: [games[0].name, games[6].name, games[1].name]
-    });
     
   console.log('users seeded');
 

@@ -1,6 +1,6 @@
 {
-  "name": "react-practice",
-  "version": "0.1.0",
+  "name": "battle-buddies",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.4.16",
