@@ -18,7 +18,7 @@ const typeDefs = gql`
 
   type Friend {
     _id: ID
-    steamId: Number!
+    steamID: String!
   }
 
   type Auth {
