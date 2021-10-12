@@ -13,6 +13,6 @@ const friendSchema = new Schema({
 });
 
 
-const SteamAccount = mongoose.model('Friend', friendSchema);
+const friend = mongoose.model('Friend', friendSchema);
 
-module.exports = SteamAccount;
+module.exports = friend;
