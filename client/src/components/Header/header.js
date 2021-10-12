@@ -1,6 +1,8 @@
 import React from 'react';
 
-const Header = () => {
+export default function Header ({loggedIn,setLoggedIn}){
+
+
     return (
         <header className="jumbotron jumbotron-fluid">
             <h1 className="text-center">Battle Buddies! </h1>
@@ -26,4 +28,6 @@ const Header = () => {
     );
 }
 
-export default Header;
+
+
+
