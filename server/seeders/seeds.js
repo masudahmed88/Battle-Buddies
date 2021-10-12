@@ -1,4 +1,4 @@
-const db = require('./connection');
+const db = require('../config/connection/');
 const { User, SteamAccount, Game } = require('../models');
 
 const gameSeedData  =require('./steamGames.json');
@@ -19,7 +19,7 @@ db.once('open', async () => {
     lastName: 'Washington',
     email: 'pamela@testmail.com',
     password: 'password12345',
-    steamAccount: '76561197960435530',
+    steamID: '76561197960435530'
     
   });
 

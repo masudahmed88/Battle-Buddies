@@ -10,16 +10,15 @@ const typeDefs = gql`
 
   type User {
     _id: ID
-    firstName: String
-    lastName: String
-    email: String
-    steamID: String
+    firstName: String!
+    lastName: String!
+    email: String!
+    steamID: String!
   }
 
-  type SteamAccount {
+  type Friend {
     _id: ID
-    steamId: Number
-    games :[Game]
+    steamID: String!
   }
 
   type Auth {
@@ -28,19 +27,18 @@ const typeDefs = gql`
   }
 
   type Query {
-    categories: [Category]
-    products(category: ID, name: String): [Product]
-    product(_id: ID!): Product
-    user: User
-    order(_id: ID!): Order
-    checkout(products: [ID]!): Checkout
+    me: User
+    myGames: [Game] 
+    myFriends: [Friend]
+    compareFriendsOwnedGames: (friend: ID): [Game] 
+    findFriendsWithGames: (game: ID): [Friend]
+
   }
 
   type Mutation {
-    addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
-    addOrder(products: [ID]!): Order
-    updateUser(firstName: String, lastName: String, email: String, password: String): User
-    updateProduct(_id: ID!, quantity: Int!): Product
+    createUser(firstName: String!, lastName: String!, email: String!, password: String!, steamID: String!): Auth
+    updateUser(firstName: String, lastName: String, email: String, password: String, isPremium: Boolean!): User
+    deleteUser(_ID): User
     login(email: String!, password: String!): Auth
   }
 `;
