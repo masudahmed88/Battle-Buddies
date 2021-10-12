@@ -27,10 +27,14 @@ const userSchema = new Schema({
   },
   steamID: {
       type: String,
-      required: false
-  }
-  //games: [Game.schema],
-  //friends: [User.schema]
+      required: true
+  },
+  games: [Game.schema],
+  friends: [Friend.schema],
+  isPremium: {
+      type:Boolean,
+      required: true
+  },
 });
 
 // set up pre-save middleware to create password
