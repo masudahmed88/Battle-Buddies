@@ -41,48 +41,45 @@ const Login = (props) => {
   };
 
   return (
-    <main className="flex-row justify-center mb-4">
-      <div className="col-12 col-lg-10">
-        <div className="card">
-          <h4 className="card-header bg-dark text-light p-2">Login</h4>
-          <div className="card-body">
-            {data ? (
-              <p>
-                Success! You may now head <Link to="/">back to the homepage.</Link>
-              </p>
-            ) : (
-              <form onSubmit={handleFormSubmit}>
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-12">
+          {data ? (
+            <p>
+              Success! You may now head <Link to="/">back to the homepage.</Link>
+            </p>
+          ) : (
+            <form className="mx-auto p-5 w-50" onSubmit={handleFormSubmit}>
+              <div className="form-group">
+                <label for="email">Email: </label>
                 <input
-                  className="form-input"
+                  className="form-control"
                   placeholder="Your email"
                   name="email"
                   type="email"
                   value={formState.email}
                   onChange={handleChange}
                 />
+              </div>
+              <div className="form-group">
+                <label for="password">Password </label>
                 <input
-                  className="form-input"
+                  className="form-control"
                   placeholder="******"
                   name="password"
                   type="password"
                   value={formState.password}
                   onChange={handleChange}
                 />
-                <button
-                  className="btn btn-block btn-info"
-                  style={{ cursor: "pointer" }}
-                  type="submit"
-                >
-                  Submit
-                </button>
-              </form>
-            )}
-
-            {error && <div className="my-3 p-3 bg-danger text-white">{error.message}</div>}
-          </div>
+              </div>
+              <button className="btn btn-success mt-3" type="submit">
+                Submit
+              </button>
+            </form>
+          )}
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 
