@@ -1,16 +1,9 @@
-const db = require('../config/connection/');
+const db = require('../config/connection.js');
 const { User, SteamAccount, Game } = require('../models');
 
 const gameSeedData  =require('./steamGames.json');
 
 db.once('open', async () => {
-
-
-  await Game.deleteMany();
-
-  const games = await Game.bulkCreate(gameSeedData);
-
-  console.log('games seeded');
 
   await User.deleteMany();
 
@@ -19,7 +12,8 @@ db.once('open', async () => {
     lastName: 'Washington',
     email: 'pamela@testmail.com',
     password: 'password12345',
-    steamID: '76561197960435530'
+    steamID: '76561197960435530',
+    isPremium: true
     
   });
 
@@ -27,14 +21,10 @@ db.once('open', async () => {
     firstName: 'Elijah',
     lastName: 'Holt',
     email: 'eholt@testmail.com',
-    password: 'password12345'
-    
+    password: 'password12345',
+    steamID: '76561197960435530',
+    isPremium: true
   });
-
-  await SteamAccount.create({ 
-      steamID: '76561197960435530',
-      games: [games[0].name, games[6].name, games[1].name]
-    });
     
   console.log('users seeded');
 

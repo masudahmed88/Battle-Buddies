@@ -1,7 +1,6 @@
-
 {
-  "name": "Battle-Buddies",
-  "version": "0.0.1",
+  "name": "battle-buddies",
+  "version": "1.0.0",
   "description": "Find Friends for the Fight",
   "main": "server/server.js",
   "scripts": {

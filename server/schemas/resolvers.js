@@ -14,7 +14,7 @@ const resolvers = {
                   populate: 'gameName'
                 });
         
-                return user.games.id(_id);
+                return user.games;
         }
             throw new AuthenticationError('Not logged in');
         
@@ -27,16 +27,16 @@ const resolvers = {
             });
     
             return user.friends.id(_id);
-            }
+            };
         throw new AuthenticationError('Not logged in');
     
         },
         compareFriendOwnedGames: async(parent,friendsId,context) => {
           if(context.user){
-            const user = await User.findById(context.user._id)
+            const user = await User.findById(context.user._id);
             const userGames = user.games;
 
-            let friendsGameListUrl =`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=76561197964056658&format=json`
+            let friendsGameListUrl =`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=${friendsId}&format=json`
             const friendsGameList = await fetch(friendsGameListUrl);
             const friendsGameListData = await friendsGameList.json();
             const gamesInCommon = [];
@@ -56,14 +56,14 @@ const resolvers = {
         },
         findFriendsWithGame :async(parent,game,context) => {
           if(context.user){
-            const user = await User.findById(context.user._id)
+            const user = await User.findById(context.user._id);
             const userFriends = user.friends;
 
             const friendsWithGame = [];
 
             //searches through all of the users friends to see who owns a specific game the user selected
             for(i=0; i<userFriends.length; i++){
-              const friendsId = userFriends[i].steamID
+              const friendsId = userFriends[i].steamID;
               let friendsGameListUrl =`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=${friendsId}&format=json`
               const friendsGameList = await fetch(friendsGameListUrl);
               const friendsGameListData = await friendsGameList.json();
