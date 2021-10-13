@@ -1,60 +1,46 @@
-import React, { useEffect } from 'react';
-import { useQuery } from '@apollo/client';
+import React, { useEffect } from "react";
+import { useQuery } from "@apollo/client";
 
-import ProductItem from '../ProductItem';
-import { useStoreContext } from '../../utils/GlobalState';
-import { UPDATE_PRODUCTS } from '../../utils/actions';
-import { QUERY_PRODUCTS } from '../../utils/queries';
-import spinner from '../../assets/spinner.gif';
+import Game from "../Game/index";
+import { useStoreContext } from "../../utils/GlobalState";
+import { UPDATE_PRODUCTS } from "../../utils/actions";
+import { QUERY_PRODUCTS } from "../../utils/queries";
+// import spinner from '../../assets/spinner.gif';
 
-function ProductList() {
+function GameList() {
   const [state, dispatch] = useStoreContext();
 
-  const { currentCategory } = state;
-
-  const { loading, data } = useQuery(QUERY_PRODUCTS);
+  const { loading, data } = useQuery(QUERY_COMMONGAME);
 
   useEffect(() => {
     if (data) {
       dispatch({
-        type: UPDATE_PRODUCTS,
-        products: data.products,
+        type: UPDATE_GAME,
+        game: data.game,
       });
     }
   }, [data, dispatch]);
 
-  function filterProducts() {
-    if (!currentCategory) {
-      return state.products;
-    }
-
-    return state.products.filter(
-      (product) => product.category._id === currentCategory
-    );
-  }
-
   return (
     <div className="my-2">
-      <h2>Our Products:</h2>
-      {state.products.length ? (
+      <h2>Games:</h2>
+      {state.games.length ? (
         <div className="flex-row">
-          {filterProducts().map((product) => (
-            <ProductItem
-              key={product._id}
-              _id={product._id}
-              image={product.image}
-              name={product.name}
-              price={product.price}
-              quantity={product.quantity}
+          {games.map((game) => (
+            <Game
+              key={game._id}
+              _id={game._id}
+              image={game.image}
+              name={game.name}
             />
           ))}
         </div>
       ) : (
-        <h3>You haven't added any products yet!</h3>
+        <h3>You don't have any games yet!</h3>
       )}
-      {loading ? <img src={spinner} alt="loading" /> : null}
+      {/* {loading ? <img src={spinner} alt="loading" /> : null} */}
     </div>
   );
 }
 
-export default ProductList;
+export default GameList;
