@@ -6,9 +6,9 @@ function FriendsInCommon(item) {
 
   return (
     <li className="list-group-item">
-      {image}
-      {name}
-      {steamId}
+      <img className="" src={image} alt="friends image" />
+      <h3 className="text-center">{name}</h3>
+      <p className="text-center">{steamId}</p>
     </li>
   );
 }
