@@ -2,6 +2,7 @@ import React from "react";
 import GameProfile from "../../GameProfile";
 import FriendsInCommon from "../../FriendsInCommon";
 import BattleBuddyFinder from "../../BattleBuddyFinder";
+import BattleBuddy from "../../BattleBuddy";
 
 const Profile = () => {
   return (
@@ -24,8 +25,13 @@ const Profile = () => {
           </ul>
         </div>
         <div className="col-3">
+          <div>
+            <h2>Find your Battle Buddy</h2>
+            </div>
           <BattleBuddyFinder />
+          <BattleBuddy />
         </div>
+        
       </div>
     </div>
   );
