@@ -22,10 +22,3 @@ export const LOGIN_USER = gql`
   }
 `;
 
-export const REMOVE_USER = gql`
-  mutation removeUser($user: ID) {
-    deleteUser(user: $user) {
- 
-    }
-  }
-`;

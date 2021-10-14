@@ -3,19 +3,19 @@ import { useQuery } from "@apollo/client";
 
 import Game from "../Game/index";
 import { useStoreContext } from "../../utils/GlobalState";
-import { UPDATE_GAMES } from "../../utils/actions";
-import { QUERY_GAMES} from "../../utils/queries";
+import { UPDATE_USER_GAMES } from "../../utils/actions";
+import { QUERY_USER_GAMES} from "../../utils/queries";
 import spinner from '../../assets/spinner.gif';
 
 function GameList() {
   const [state, dispatch] = useStoreContext();
 
-  const { loading, data } = useQuery(QUERY_GAMES);
+  const { loading, data } = useQuery(QUERY_USER_GAMES);
 
   useEffect(() => {
     if (data) {
       dispatch({
-        type: UPDATE_GAMES,
+        type: UPDATE_USER_GAMES,
         games: data.game,
       });
     }

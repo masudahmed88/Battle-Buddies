@@ -3,19 +3,19 @@ import { useQuery } from "@apollo/client";
 
 import Friend from "../Friend";
 import { useStoreContext } from "../../utils/GlobalState";
-import { UPDATE_FRIENDS } from "../../utils/actions";
-import { QUERY_FRIENDS } from "../../utils/queries";
+import { UPDATE_USER_FRIENDS } from "../../utils/actions";
+import { QUERY_USER_FRIENDS } from "../../utils/queries";
 import spinner from '../../assets/spinner.gif';
 
 function FriendsList() {
   const [state, dispatch] = useStoreContext();
 
-  const { loading, data } = useQuery(QUERY_FRIENDS);
+  const { loading, data } = useQuery(QUERY_USER_FRIENDS);
 
   useEffect(() => {
     if (data) {
       dispatch({
-        type: UPDATE_FRIENDS,
+        type: UPDATE_USER_FRIENDS,
         friend: data.friend,
       });
     }

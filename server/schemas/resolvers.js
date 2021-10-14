@@ -4,36 +4,44 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {        
-        me: async (parent, args, context) => {
+        user: async (parent, args, context) => {
           if (context.user) {
-            const user = await User.findById(context.user.id).populate({
-              path: 'orders.products',
-              populate: 'category',
-            });
+            const user = await User.findById(context.user.id);
 
             user.friends.sort((a, b) => b.steamID - a.steamID);
+            user.games.sort((a, b) => b.steamID - a.steamID);
 
             return user;
           }
 
           throw new AuthenticationError('Not logged in');
         },
-        myGames: async (parent, {userId }, context) => {
+
+        game: async (parent, { id }, context) => {
             if (context.user) {
                 const user = await User.findById(context.user._id).populate({
                   path: 'user.games',
-                  populate: 'gameName'
+                  populate: 'appid'
                 });
         
-                return user.games;
+                return user.games.appid(id);
         }
             throw new AuthenticationError('Not logged in');
         
         },
-        myFriends: async (parent, {userId }, context) => {
+        games: async (parent , args, context) => {
+          if (context.user) {
+              const user = await User.findById(context.user._id)
+             
+              return user.games
+      }
+          throw new AuthenticationError('Not logged in');
+      
+      },
+        friend: async (parent, {id }, context) => {
           if (context.user) {
             const user = await User.findById(context.user._id).populate({
-              path: 'steamId.friends',
+              path: 'user.friends',
               populate: 'steamId'
             });
     
@@ -42,6 +50,16 @@ const resolvers = {
         throw new AuthenticationError('Not logged in');
     
         },
+        friends: async (parent, { id }, context) => {
+          if (context.user) {
+              const user = await User.findById(context.user._id)
+      
+              return user.friends
+      }
+          throw new AuthenticationError('Not logged in');
+      
+      },
+
         compareFriendOwnedGames: async(parent,friendsId,context) => {
           if(context.user){
             const user = await User.findById(context.user._id);
@@ -108,35 +126,58 @@ const resolvers = {
           return { token, user };
         },
         createUser: async (parent,args ) => {
-          return User.create({ args });
+          const user = await User.create(args);
+          const token = signToken(user);
+
+          return { token, user };
         },
-        updateUser: async(parent, userId , context) =>{
+        updateUser: async(parent, args , context) =>{
           if (context.user) {
-            const user = await User.findById(context.user._id);
-
-            //fetches the users friend list from Steam's Servers 
-            let friendListUrl =`http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=${user.steamID}&relationship=friend`;
-            const friendsList = await fetch(friendListUrl);
-            const friendsListData = await friendsList.json();
-            console.log(friendsListData);
-
-            //fetches the users list of owned games from Steam's Servers
-            let gameListUrl =`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=${user.steamID}&format=json`;
-            const gamesList = await fetch(gameListUrl);
-            const gamesListData = await friendsList.json();
-            console.log(gamesListData);
-
-            //Assigns the data from the fetched objects to the users Model
-            user.friends = friendsListData.friendslist.friends;
-            user.games = gamesListData.response.games;
-
-            console.log(user)
-          return user;
-        };
+            return User.findByIdAndUpdate(context.user.id, args, {
+              new: true,
+            });
+          }
+    
+          throw new AuthenticationError('Not logged in');
         },
+
+            // //fetches the users friend list from Steam's Servers 
+            // let friendListUrl =`http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=${user.steamID}&relationship=friend`;
+            // const friendsList = await fetch(friendListUrl);
+            // const friendsListData = await friendsList.json();
+            // console.log(friendsListData);
+
+            // //fetches the users list of owned games from Steam's Servers
+            // let gameListUrl =`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=${user.steamID}&format=json`;
+            // const gamesList = await fetch(gameListUrl);
+            // const gamesListData = await friendsList.json();
+            // console.log(gamesListData);
+
+            // //Assigns the data from the fetched objects to the users Model
+            // user.friends = friendsListData.friendslist.friends;
+            // user.games = gamesListData.response.games;
+
+        //     console.log(user)
+        //   return user;
+        // };
+        // },
         deleteUser: async (parent, { userId }) => {
           return User.findOneAndDelete({ _id: userId });
         },
+        // addGames: async (parent, { games }, context) => {
+        //   console.log(context);
+        //   if (context.user) {
+        //     const order = new Order({ products });
+    
+        //     await User.findByIdAndUpdate(context.user.id, {
+        //       $push: { orders: order },
+        //     });
+    
+        //     return order;
+        //   }
+    
+        //   throw new AuthenticationError('Not logged in');
+        // },
       },
     };
   

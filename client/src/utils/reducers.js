@@ -1,19 +1,19 @@
 import { useReducer } from "react";
 import {
-  UPDATE_FRIENDS,
-  UPDATE_GAMES,
+  UPDATE_USER_FRIENDS,
+  UPDATE_USER_GAMES,
   // UPDATE_CURRENT_CATEGORY
 } from "./actions";
 
 export const reducer = (state, action) => {
   switch (action.type) {
-    case UPDATE_FRIENDS:
+    case UPDATE_USER_FRIENDS:
       return {
         ...state,
         friends: [...action.friends],
       };
 
-    case UPDATE_GAMES:
+    case UPDATE_USER_GAMES:
       return {
         ...state,
         games: [...action.games],
