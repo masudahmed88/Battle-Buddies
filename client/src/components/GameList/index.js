@@ -3,20 +3,20 @@ import { useQuery } from "@apollo/client";
 
 import Game from "../Game/index";
 import { useStoreContext } from "../../utils/GlobalState";
-import { UPDATE_PRODUCTS } from "../../utils/actions";
-import { QUERY_PRODUCTS } from "../../utils/queries";
-// import spinner from '../../assets/spinner.gif';
+import { UPDATE_GAMES } from "../../utils/actions";
+import { QUERY_GAMES} from "../../utils/queries";
+import spinner from '../../assets/spinner.gif';
 
 function GameList() {
   const [state, dispatch] = useStoreContext();
 
-  const { loading, data } = useQuery(QUERY_COMMONGAME);
+  const { loading, data } = useQuery(QUERY_GAMES);
 
   useEffect(() => {
     if (data) {
       dispatch({
-        type: UPDATE_GAME,
-        game: data.game,
+        type: UPDATE_GAMES,
+        games: data.game,
       });
     }
   }, [data, dispatch]);
@@ -24,9 +24,9 @@ function GameList() {
   return (
     <div className="my-2">
       <h2>Games:</h2>
-      {state.games.length ? (
+      {state.GameList.length ? (
         <div className="flex-row">
-          {games.map((game) => (
+          {GameList.map((game) => (
             <Game
               key={game._id}
               _id={game._id}
@@ -38,7 +38,7 @@ function GameList() {
       ) : (
         <h3>You don't have any games yet!</h3>
       )}
-      {/* {loading ? <img src={spinner} alt="loading" /> : null} */}
+      {loading ? <img src={spinner} alt="loading" /> : null}
     </div>
   );
 }

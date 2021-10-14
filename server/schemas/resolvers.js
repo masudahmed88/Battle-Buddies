@@ -3,9 +3,20 @@ const { User } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
-    Query: {
-        me: async (parent, { userId }) => {
-          return User.findOne({ _id: userId });
+    Query: {        
+        me: async (parent, args, context) => {
+          if (context.user) {
+            const user = await User.findById(context.user.id).populate({
+              path: 'orders.products',
+              populate: 'category',
+            });
+
+            user.friends.sort((a, b) => b.steamID - a.steamID);
+
+            return user;
+          }
+
+          throw new AuthenticationError('Not logged in');
         },
         myGames: async (parent, {userId }, context) => {
             if (context.user) {
