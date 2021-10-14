@@ -1,21 +1,21 @@
 import React, { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 
-import friend from "../friend/index";
+import Friend from "../Friend";
 import { useStoreContext } from "../../utils/GlobalState";
-import { UPDATE_PRODUCTS } from "../../utils/actions";
-import { QUERY_PRODUCTS } from "../../utils/queries";
-// import spinner from '../../assets/spinner.gif';
+import { UPDATE_FRIENDS } from "../../utils/actions";
+import { QUERY_FRIENDS } from "../../utils/queries";
+import spinner from '../../assets/spinner.gif';
 
 function FriendsList() {
   const [state, dispatch] = useStoreContext();
 
-  const { loading, data } = useQuery(QUERY_FRIEND);
+  const { loading, data } = useQuery(QUERY_FRIENDS);
 
   useEffect(() => {
     if (data) {
       dispatch({
-        type: UPDATE_FRIEND,
+        type: UPDATE_FRIENDS,
         friend: data.friend,
       });
     }
@@ -23,9 +23,9 @@ function FriendsList() {
 
   return (
     <div>
-      {state.friend.length ? (
+      {state.FriendsList.length ? (
         <div className="flex-row">
-          {friends.map((friend) => (
+          {FriendsList.map((friend) => (
             <Friend
               key={friend._id}
               _id={friend._id}
@@ -37,9 +37,9 @@ function FriendsList() {
       ) : (
         <h3>You don't have any friends yet!</h3>
       )}
-      {/* {loading ? <img src={spinner} alt="loading" /> : null} */}
+      {loading ? <img src={spinner} alt="loading" /> : null}
     </div>
   );
 }
 
-export default friendList;
+export default FriendsList;
