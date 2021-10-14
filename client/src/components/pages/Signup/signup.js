@@ -19,6 +19,10 @@ const Signup = () => {
               <input type="email" className="form-control" id="email"></input>
             </div>
             <div className="form-group">
+              <label for="steamId">Steam ID: </label>
+              <input type="number" className="form-control" id="steamId"></input>
+            </div>
+            <div className="form-group">
               <label for="password">Password: </label>
               <input type="password" className="form-control" id="password"></input>
             </div>
