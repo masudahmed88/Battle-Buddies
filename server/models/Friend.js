@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-const bcrypt = require('bcrypt');
+const Game = require('./Game')
 
 
 const friendSchema = new Schema({
   steamID: {
       type: String,
       required: false
-  }
-
+  },
+  games:[Game.schema]
 });
 
 

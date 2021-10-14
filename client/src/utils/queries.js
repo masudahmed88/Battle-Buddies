@@ -1,21 +1,25 @@
 import { gql } from "@apollo/client";
 
-export const QUERY_GAMES = gql`
+export const QUERY_USER_GAMES = gql`
 {
-  query myGames($user: _ID) {
-    myGames(userId: $user) {
-        [Game]
-      }
+  games{
+      name
+      appid
+      image
     }
-  }
+  }     
 `;
 
-export const QUERY_FRIENDS = gql`
+export const QUERY_USER_FRIENDS = gql`
   {
-    query myFriends($user: _ID) {
-        myFriends(userId: $user){
-        friends  
-      }
+    friends{
+        name
+        steamID
+        games{
+          name
+          appId
+          image
+        }         
     }
   }
 `;
@@ -37,6 +41,20 @@ export const QUERY_USER = gql`
       email
       steamID
       isPremium
+      games {
+        name
+        appid
+        image
+      }
+      friends {
+        name
+        steamID
+        image
+        games {
+          name
+          appid
+          image
+        }
       }
     }
   }

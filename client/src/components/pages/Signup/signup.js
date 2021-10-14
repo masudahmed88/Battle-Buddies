@@ -1,6 +1,6 @@
 import React from "react";
 
-const Signup = () => {
+function Signup(props) {
   return (
     <div className="container-fluid">
       <div className="row">
