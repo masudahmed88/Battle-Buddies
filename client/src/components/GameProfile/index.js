@@ -1,12 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Game from "../Game";
 
 function GameProfile(item) {
   const { name, image, category, rating, dateReleased } = item;
 
   return (
-    <div class="card ml-5  mt-5 p-3" style="width: 18rem;">
+    <div class="card ml-5  mt-5 p-3">
       <div class="card-header rounded-top">
         <h2 class="text-center">{name}</h2>
       </div>
