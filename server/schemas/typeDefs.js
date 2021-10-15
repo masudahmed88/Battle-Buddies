@@ -36,9 +36,6 @@ const typeDefs = gql`
     games:[Game]
     friend(steamID: String): Friend
     friends:[Friend]
-    compareFriendOwnedGames(friend: ID): [Game] 
-    findFriendsWithGame(game: ID): [Friend]
-
   }
 
   type Mutation {
@@ -54,7 +51,7 @@ const typeDefs = gql`
       lastName: String, 
       email: String, 
       password: String, 
-      isPremium: Boolean!): User
+      isPremium: Boolean): User
     deleteUser: User
     login(
       email: String!, 

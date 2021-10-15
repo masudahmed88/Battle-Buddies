@@ -34,7 +34,7 @@ const userSchema = new Schema({
   friends: [Friend.schema],
   isPremium: {
       type:Boolean,
-      required: true
+      required: false
   },
 });
 

@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 
 import Game from "../Game/index";
-import { useStoreContext } from "../../utils/GlobalState";
+import { useUserContext } from "../../utils/GlobalState";
 import { UPDATE_USER_GAMES } from "../../utils/actions";
 import { QUERY_USER_GAMES} from "../../utils/queries";
 import spinner from '../../assets/spinner.gif';
 
 function GameList() {
-  const [state, dispatch] = useStoreContext();
+  const [state, dispatch] = useUserContext();
 
   const { loading, data } = useQuery(QUERY_USER_GAMES);
 
@@ -24,9 +24,9 @@ function GameList() {
   return (
     <div className="my-2">
       <h2>Games:</h2>
-      {state.GameList.length ? (
+      {state.games.length ? (
         <div className="flex-row">
-          {GameList.map((game) => (
+          {state.games.map((game) => (
             <Game
               key={game._id}
               _id={game._id}

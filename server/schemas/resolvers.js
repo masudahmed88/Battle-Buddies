@@ -59,53 +59,54 @@ const resolvers = {
           throw new AuthenticationError('Not logged in');
       
       },
+    },
 
-        compareFriendOwnedGames: async(parent,friendsId,context) => {
-          if(context.user){
-            const user = await User.findById(context.user._id);
-            const userGames = user.games;
+        // compareFriendOwnedGames: async(parent,friendsId,context) => {
+        //   if(context.user){
+        //     const user = await User.findById(context.user._id);
+        //     const userGames = user.games;
 
-            let friendsGameListUrl =`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=${friendsId}&format=json`
-            const friendsGameList = await fetch(friendsGameListUrl);
-            const friendsGameListData = await friendsGameList.json();
-            const gamesInCommon = [];
+        //     let friendsGameListUrl =`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=${friendsId}&format=json`
+        //     const friendsGameList = await fetch(friendsGameListUrl);
+        //     const friendsGameListData = await friendsGameList.json();
+        //     const gamesInCommon = [];
 
-            //searches through the games of the user and the selected friend to find all games in common
-            for (i=0; i<userGames.length; i++){
-              for(z=0; z<friendsGameListData.length; z++){
-                if(userGames[i].appid === friendsGameListData[z].appid){
-                  gamesInCommon.push(userGames[i].appid);
-                };  
-              };
-            };
+        //     //searches through the games of the user and the selected friend to find all games in common
+        //     for (i=0; i<userGames.length; i++){
+        //       for(z=0; z<friendsGameListData.length; z++){
+        //         if(userGames[i].appid === friendsGameListData[z].appid){
+        //           gamesInCommon.push(userGames[i].appid);
+        //         };  
+        //       };
+        //     };
             
-            return gamesInCommon;
+        //     return gamesInCommon;
             
-          };
-        },
-        findFriendsWithGame :async(parent,game,context) => {
-          if(context.user){
-            const user = await User.findById(context.user._id);
-            const userFriends = user.friends;
+        //   };
+        // },
+      //   findFriendsWithGame :async(parent,game,context) => {
+      //     if(context.user){
+      //       const user = await User.findById(context.user._id);
+      //       const userFriends = user.friends;
 
-            const friendsWithGame = [];
+      //       const friendsWithGame = [];
 
-            //searches through all of the users friends to see who owns a specific game the user selected
-            for(i=0; i<userFriends.length; i++){
-              const friendsId = userFriends[i].steamID;
-              let friendsGameListUrl =`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=${friendsId}&format=json`
-              const friendsGameList = await fetch(friendsGameListUrl);
-              const friendsGameListData = await friendsGameList.json();
-              for(z=0; z<friendsGameListData.length; z++){
-                if(game.appid === friendsGameListData.games[z].appid){ 
-                  friendsWithGame.push(friendsId);
-                   };  
-                 };
-             };
-             return friendsWithGame;
-         };
-        },
-      },
+      //       //searches through all of the users friends to see who owns a specific game the user selected
+      //       for(i=0; i<userFriends.length; i++){
+      //         const friendsId = userFriends[i].steamID;
+      //         let friendsGameListUrl =`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=${friendsId}&format=json`
+      //         const friendsGameList = await fetch(friendsGameListUrl);
+      //         const friendsGameListData = await friendsGameList.json();
+      //         for(z=0; z<friendsGameListData.length; z++){
+      //           if(game.appid === friendsGameListData.games[z].appid){ 
+      //             friendsWithGame.push(friendsId);
+      //              };  
+      //            };
+      //        };
+      //        return friendsWithGame;
+      //    };
+      //   },
+      // },
 
     Mutation: {
         login: async (parent, { email, password }) => {
@@ -140,7 +141,7 @@ const resolvers = {
     
           throw new AuthenticationError('Not logged in');
         },
-
+      
             // //fetches the users friend list from Steam's Servers 
             // let friendListUrl =`http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=${user.steamID}&relationship=friend`;
             // const friendsList = await fetch(friendListUrl);
@@ -164,21 +165,21 @@ const resolvers = {
         deleteUser: async (parent, { userId }) => {
           return User.findOneAndDelete({ _id: userId });
         },
-        // addGames: async (parent, { games }, context) => {
-        //   console.log(context);
-        //   if (context.user) {
-        //     const order = new Order({ products });
-    
-        //     await User.findByIdAndUpdate(context.user.id, {
-        //       $push: { orders: order },
-        //     });
-    
-        //     return order;
-        //   }
-    
-        //   throw new AuthenticationError('Not logged in');
+          // addGames: async (parent, { games }, context) => {
+          //   console.log(context);
+          //   if (context.user) {
+          //     const order = new Order({ products });
+      
+          //     await User.findByIdAndUpdate(context.user.id, {
+          //       $push: { orders: order },
+          //     });
+      
+          //     return order;
+          //   }
+      
+          //   throw new AuthenticationError('Not logged in');
+          // },
         // },
-      },
-    };
-  
+    },
+  };
 module.exports = resolvers;
