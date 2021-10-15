@@ -16,7 +16,7 @@ const typeDefs = gql`
     steamID: String!
     games: [Game]
     friends: [Friend]
-    isPremium: Boolean!
+    isPremium: Boolean
   }
 
   type Friend {
@@ -40,21 +40,21 @@ const typeDefs = gql`
 
   type Mutation {
     createUser(
-      firstName: String!, 
-      lastName: String!, 
-      email: String!, 
-      password: String!, 
-      steamID: String!,
+      firstName: String!
+      lastName: String! 
+      email: String!
+      password: String!
+      steamID: String!
       ): Auth
     updateUser(
-      firstName: String, 
-      lastName: String, 
-      email: String, 
-      password: String, 
+      firstName: String 
+      lastName: String
+      email: String
+      password: String 
       isPremium: Boolean): User
     deleteUser: User
     login(
-      email: String!, 
+      email: String! 
       password: String!
       ): Auth
   }
