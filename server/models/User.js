@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
-
-const { Schema } = mongoose;
 const bcrypt = require('bcrypt');
 const Game = require('./Game');
 const Friend  = require('./Friend');
+
+const { Schema } = mongoose;
+
 
 const userSchema = new Schema({
   firstName: {

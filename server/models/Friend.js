@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-
-const { Schema } = mongoose;
 const Game = require('./Game')
+const { Schema } = mongoose;
 
 
 const friendSchema = new Schema({
@@ -9,10 +8,18 @@ const friendSchema = new Schema({
       type: String,
       required: false
   },
+  profileName:{
+      type: String,
+      required: false
+  },
+  name:{
+      type: String,
+      required: false
+  },
   games:[Game.schema]
 });
 
 
-const friend = mongoose.model('Friend', friendSchema);
+const Friend = mongoose.model('Friend', friendSchema);
 
-module.exports = friend;
+module.exports = Friend;

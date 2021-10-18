@@ -8,8 +8,8 @@ const resolvers = {
           if (context.user) {
             const user = await User.findById(context.user.id);
 
-            user.friends.sort((a, b) => b.steamID - a.steamID);
-            user.games.sort((a, b) => b.steamID - a.steamID);
+            user.friends.sort((a, b) => a.steamID - b.steamID);
+            user.games.sort((a, b) => a.appID - b.appID);
 
             return user;
           }
@@ -21,7 +21,7 @@ const resolvers = {
             if (context.user) {
                 const user = await User.findById(context.user._id).populate({
                   path: 'user.games',
-                  populate: 'appid'
+                  populate:'appid'
                 });
         
                 return user.games.appid(id);
@@ -29,9 +29,11 @@ const resolvers = {
             throw new AuthenticationError('Not logged in');
         
         },
-        games: async (parent , args, context) => {
+        games: async (parent , {id}, context) => {
           if (context.user) {
-              const user = await User.findById(context.user._id)
+              const user = await User.findById(context.user._id).populate({
+                path:'games.'
+              })
              
               return user.games
       }
@@ -108,7 +110,23 @@ const resolvers = {
       //   },
       // },
 
-    Mutation: {
+    Mutation: { 
+
+        addUser: async (parent, args ) => {
+          const user = await User.create(args);
+          const token = signToken(user);
+
+          return { token, user };
+        }, 
+        updateUser: async(parent, args , context) =>{
+          if (context.user) {
+            return User.findByIdAndUpdate(context.user.id, args, {
+              new: true,
+            });
+          }
+    
+          throw new AuthenticationError('Not logged in');
+        },
         login: async (parent, { email, password }) => {
           const user = await User.findOne({ email });
     
@@ -125,21 +143,6 @@ const resolvers = {
           const token = signToken(user);
     
           return { token, user };
-        },
-        createUser: async (parent,args ) => {
-          const user = await User.create(args);
-          const token = signToken(user);
-
-          return { token, user };
-        },
-        updateUser: async(parent, args , context) =>{
-          if (context.user) {
-            return User.findByIdAndUpdate(context.user.id, args, {
-              new: true,
-            });
-          }
-    
-          throw new AuthenticationError('Not logged in');
         },
       
             // //fetches the users friend list from Steam's Servers 

@@ -28,7 +28,7 @@ function FriendsList() {
           {state.friends.map((friend) => (
             <Friend
               key={friend._id}
-              steamid={friend.steamID}
+              steamID={friend.steamID}
               image={friend.image}
               name={friend.name}
             />

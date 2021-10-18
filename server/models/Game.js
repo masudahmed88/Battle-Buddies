@@ -1,17 +1,28 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-const bcrypt = require('bcrypt');
 
 const gameSchema = new Schema({
-    name: {
-    type: String,
-    required: true
-  },
     appid: {
-      type: Number,
+      type: String,
       required: true
-  }
+    },
+    gameName: {
+      type: String,
+      required: true
+    },
+    description:{
+      type: String,
+      required: false
+    },
+    imgUrl:{
+      type: String,
+      required: false
+    },
+    rating:{
+      type: String,
+      required: false
+    }
 });
 const Game = mongoose.model('Game', gameSchema);
 

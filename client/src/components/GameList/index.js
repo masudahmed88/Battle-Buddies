@@ -23,13 +23,11 @@ function GameList() {
 
   return (
     <div className="my-2">
-      <h2>Games:</h2>
       {state.games.length ? (
         <div className="flex-row">
           {state.games.map((game) => (
             <Game
-              key={game._id}
-              _id={game._id}
+              appid={game.appid}
               image={game.image}
               name={game.name}
             />

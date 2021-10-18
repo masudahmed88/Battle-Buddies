@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 function BattleBuddy(item) {
   const { name, image, id } = item;
@@ -16,3 +16,4 @@ function BattleBuddy(item) {
 }
 
 export default BattleBuddy;
+np
