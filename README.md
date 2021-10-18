@@ -26,7 +26,7 @@ git clone from repo.
 
 ## Usage
 
-***DISCLAIMER: DEPLOYED LINK IS NOT WORKING***
+***DISCLAIMER: DEPLOYED LINK IS NOT WORKING. HOWEVER THE FIRST 4 PAGES DISPLAY LOCALLY.***
 
 ### Live link: http://battle-buddies-mnm.herokuapp.com/
 
