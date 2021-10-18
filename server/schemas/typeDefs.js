@@ -59,6 +59,8 @@ const typeDefs = gql`
     deleteGame(gameID:String):User
     saveFriend(friendID:String):User
     deleteFriend(friendID:String):User
+    compareGames(friendID:String):[Game]
+    compareFriends(gameID:String):[Friend]
     deleteUser: User
     login(
       email: String! 

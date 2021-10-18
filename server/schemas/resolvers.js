@@ -63,53 +63,6 @@ const resolvers = {
       },
     },
 
-        // compareFriendOwnedGames: async(parent,friendsId,context) => {
-        //   if(context.user){
-        //     const user = await User.findById(context.user._id);
-        //     const userGames = user.games;
-
-        //     let friendsGameListUrl =`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=${friendsId}&format=json`
-        //     const friendsGameList = await fetch(friendsGameListUrl);
-        //     const friendsGameListData = await friendsGameList.json();
-        //     const gamesInCommon = [];
-
-        //     //searches through the games of the user and the selected friend to find all games in common
-        //     for (i=0; i<userGames.length; i++){
-        //       for(z=0; z<friendsGameListData.length; z++){
-        //         if(userGames[i].appid === friendsGameListData[z].appid){
-        //           gamesInCommon.push(userGames[i].appid);
-        //         };  
-        //       };
-        //     };
-            
-        //     return gamesInCommon;
-            
-        //   };
-        // },
-      //   findFriendsWithGame :async(parent,game,context) => {
-      //     if(context.user){
-      //       const user = await User.findById(context.user._id);
-      //       const userFriends = user.friends;
-
-      //       const friendsWithGame = [];
-
-      //       //searches through all of the users friends to see who owns a specific game the user selected
-      //       for(i=0; i<userFriends.length; i++){
-      //         const friendsId = userFriends[i].steamID;
-      //         let friendsGameListUrl =`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=${friendsId}&format=json`
-      //         const friendsGameList = await fetch(friendsGameListUrl);
-      //         const friendsGameListData = await friendsGameList.json();
-      //         for(z=0; z<friendsGameListData.length; z++){
-      //           if(game.appid === friendsGameListData.games[z].appid){ 
-      //             friendsWithGame.push(friendsId);
-      //              };  
-      //            };
-      //        };
-      //        return friendsWithGame;
-      //    };
-      //   },
-      // },
-
     Mutation: { 
 
         addUser: async (parent, args ) => {
@@ -151,57 +104,89 @@ const resolvers = {
         
     
     saveGame: async(parent, gameID , context) => {
-      console.log(context.user);
-      try {
-        const updatedUser = await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { games: args } },
-          { new: true, runValidators: true }
-        );
-        return updatedUser;
-      } catch (err) {
-        console.log(err);
-        return res.status(400).json(err);
+      console.log(context);
+      if (context.user) {
+        const game = new Game({ gameID});
+
+        await User.findByIdAndUpdate(context.user._id, { $push: { games: game } });
+
+        return game;
       }
+
+      throw new AuthenticationError('Not logged in');
     },
     // remove a game from `games`
-    deleteGame: async ({ user, params }, res) => {
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: user._id },
-        { $pull: { games: { gameId: params.gameId } } },
-        { new: true }
-      );
-      if (!updatedUser) {
-        return res.status(404).json({ message: "Couldn't find user with this id!" });
+    deleteGame: async (parent, gameID , context) => {
+      console.log(context)
+      if(context.user){
+      const updatedUser = await User.findOneAndUpdate(context.user._id, { $pull: { games: gameID} });
+
+      return updatedUser;
       }
-      return res.json(updatedUser);
+      throw new AuthenticationError('not logged In');
     },
-    saveFriend: async ({ user, body }, res) => {
-      console.log(user);
-      try {
-        const updatedUser = await User.findOneAndUpdate(
-          { _id: user._id },
-          { $addToSet: { friends: body } },
-          { new: true, runValidators: true }
-        );
-        return res.json(updatedUser);
-      } catch (err) {
-        console.log(err);
-        return res.status(400).json(err);
+    saveFriend: async(parent, friendID , context) => {
+      console.log(context);
+      if (context.user) {
+        const friend = new Friend({ friendID});
+
+        await User.findByIdAndUpdate(context.user._id, { $push: { friends: friend } });
+
+        return friend;
       }
+
+      throw new AuthenticationError('Not logged in');
     },
     // remove a friend from `friends`
-    deleteFriend: async ({ user, params }, res) => {
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: user._id },
-        { $pull: { friends: { friendId: params.friendId } } },
-        { new: true }
-      );
-      if (!updatedUser) {
-        return res.status(404).json({ message: "Couldn't find user with this id!" });
+    deleteFriend: async (parent, friendID , context) => {
+      console.log(context)
+      if(context.user){
+      const updatedUser = await User.findOneAndUpdate(context.user._id, { $pull: { friends: friendID} });
+
+      return updatedUser;
       }
-      return res.json(updatedUser);
+      throw new AuthenticationError('not logged In');
     },
-  }
-  };
+    compareGames: async (parent,friendID, context) => {
+      if(context.user){
+            const user = await User.findById(context.user._id);
+            const userGames = user.games;
+            const friendsGames = user.friends[friendID].games;
+
+            const gamesInCommon = [];
+
+            //searches through the games of the user and the selected friend to find all games in common
+            for (i=0; i<userGames.length; i++){
+              for(z=0; z<friendsGames.length; z++){
+                if(userGames[i].appId === friendsGames[z].appId){
+                  gamesInCommon.push(userGames[i].gameID);
+                };  
+              };
+            };
+            
+            return gamesInCommon;
+      };
+    },
+    compareFriends: async (parent,appId, context) => {
+      if(context.user){
+            const user = await User.findById(context.user._id);
+            const userFriends = user.friends;
+
+            const friendsWithGame = [];
+
+            //searches through the games of the user and the selected friend to find all games in common
+            for (i=0; i<userFriends.length; i++){
+              const friendsGames = user.friends[i].games;
+              for(z=0; z<friendsGames.length; z++){
+                if(appId === friendsGames[z].appId){
+                  friendsWithGame.push(userFriends[i].friendID);
+                };  
+              };
+            };
+            
+            return friendsWithGame;
+      };
+    },
+  },
+    };
 module.exports = resolvers;
