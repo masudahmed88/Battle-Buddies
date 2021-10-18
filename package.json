@@ -17,7 +17,6 @@
     "concurrently": "^5.1.0"
   },
   "dependencies": {
-    "react-redux": "^7.2.5",
-    "redux": "^4.1.1"
+    "graphql": "^15.6.1"
   }
 }

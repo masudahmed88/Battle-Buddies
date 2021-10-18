@@ -10,7 +10,7 @@ const Profile = () => {
           <div>
             <h2 className="text-center">My Friends</h2>
           </div>
-          <div class="list-group">
+          <div className="list-group">
             <FriendList />
           </div>
         </div>

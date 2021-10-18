@@ -3,26 +3,29 @@ const { gql } = require("apollo-server-express");
 const typeDefs = gql`
   type Game {
     _id: ID
+    appid: String
+    gameName: String
+    description: String
+    imgUrl: String
+    rating: String  
+  }
+
+  type Friend {
+    _id: ID
+    steamID: String!
+    profileName:String
     name: String
-    appid: Int
+    games: [Game]
   }
 
   type User {
     _id: ID
     firstName: String!
     lastName: String!
-    email: String!
-    password: String!
-    steamID: String!
+    email: String
     games: [Game]
     friends: [Friend]
-    isPremium: Boolean!
-  }
-
-  type Friend {
-    _id: ID
-    steamID: String!
-    games: [Game]
+    isPremium: Boolean
   }
 
   type Auth {
@@ -32,32 +35,29 @@ const typeDefs = gql`
 
   type Query {
     user: User
-    game(appid: Int): Game
+    game(appid: String!): Game
     games:[Game]
-    friend(steamID: String): Friend
+    friend(steamID: String!): Friend
     friends:[Friend]
-    compareFriendOwnedGames(friend: ID): [Game] 
-    findFriendsWithGame(game: ID): [Friend]
-
   }
 
   type Mutation {
-    createUser(
-      firstName: String!, 
-      lastName: String!, 
-      email: String!, 
-      password: String!, 
-      steamID: String!,
+    addUser(
+      firstName: String!
+      lastName: String! 
+      email: String!
+      password: String!
+      steamID: String!
       ): Auth
     updateUser(
-      firstName: String, 
-      lastName: String, 
-      email: String, 
-      password: String, 
-      isPremium: Boolean!): User
+      firstName: String 
+      lastName: String
+      email: String
+      password: String 
+      isPremium: Boolean): User
     deleteUser: User
     login(
-      email: String!, 
+      email: String! 
       password: String!
       ): Auth
   }

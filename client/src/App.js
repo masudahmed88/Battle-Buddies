@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { UserProvider } from './utils/GlobalState';
 
 import Home from "./components/pages/Home/home";
 import Profile from "./components/pages/Profile/profile";
@@ -36,26 +37,27 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
+        <div>
+        <UserProvider>
         <div className="flex-column justify-flex-start min-100-vh">
           <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
           <div className="container">
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route exact path="/login">
-              <Login />
-            </Route>
-            <Route exact path="/signup">
-              <Signup />
-            </Route>
-            <Route exact path="/me">
-              <Profile />
-            </Route>
-            <Route exact path="/profiles/:profileId">
-              <Profile />
-            </Route>
+            <Switch>
+              <Route exact path="/" component = {Home}/>
+          
+              <Route exact path="/login" component={Login}/>
+              
+              <Route exact path="/signup" component ={Signup} />
+          
+              <Route exact path="/me" component = {Profile} />
+          
+              <Route exact path="/profiles/:profileId" component= {Profile} />
+            
+            </Switch>
           </div>
           <Footer />
+        </div>
+        </UserProvider>
         </div>
       </Router>
     </ApolloProvider>

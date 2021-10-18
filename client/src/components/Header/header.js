@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+
 export default function Header({ loggedIn, setLoggedIn }) {
   return (
     <header className="jumbotron jumbotron-fluid">
@@ -26,7 +27,7 @@ export default function Header({ loggedIn, setLoggedIn }) {
               <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => setLoggedIn(!loggedIn)}
+                onClick={() => setLoggedIn(loggedIn)}
               >
                 Log in
               </button>
