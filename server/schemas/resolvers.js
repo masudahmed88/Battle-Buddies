@@ -145,44 +145,63 @@ const resolvers = {
           return { token, user };
         },
       
-            // //fetches the users friend list from Steam's Servers 
-            // let friendListUrl =`http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=${user.steamID}&relationship=friend`;
-            // const friendsList = await fetch(friendListUrl);
-            // const friendsListData = await friendsList.json();
-            // console.log(friendsListData);
-
-            // //fetches the users list of owned games from Steam's Servers
-            // let gameListUrl =`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=${user.steamID}&format=json`;
-            // const gamesList = await fetch(gameListUrl);
-            // const gamesListData = await friendsList.json();
-            // console.log(gamesListData);
-
-            // //Assigns the data from the fetched objects to the users Model
-            // user.friends = friendsListData.friendslist.friends;
-            // user.games = gamesListData.response.games;
-
-        //     console.log(user)
-        //   return user;
-        // };
-        // },
         deleteUser: async (parent, { userId }) => {
           return User.findOneAndDelete({ _id: userId });
         },
-          // addGames: async (parent, { games }, context) => {
-          //   console.log(context);
-          //   if (context.user) {
-          //     const order = new Order({ products });
-      
-          //     await User.findByIdAndUpdate(context.user.id, {
-          //       $push: { orders: order },
-          //     });
-      
-          //     return order;
-          //   }
-      
-          //   throw new AuthenticationError('Not logged in');
-          // },
-        // },
+        
+    
+    saveGame: async(parent, gameID , context) => {
+      console.log(context.user);
+      try {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { games: args } },
+          { new: true, runValidators: true }
+        );
+        return updatedUser;
+      } catch (err) {
+        console.log(err);
+        return res.status(400).json(err);
+      }
     },
+    // remove a game from `games`
+    deleteGame: async ({ user, params }, res) => {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: user._id },
+        { $pull: { games: { gameId: params.gameId } } },
+        { new: true }
+      );
+      if (!updatedUser) {
+        return res.status(404).json({ message: "Couldn't find user with this id!" });
+      }
+      return res.json(updatedUser);
+    },
+    saveFriend: async ({ user, body }, res) => {
+      console.log(user);
+      try {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: user._id },
+          { $addToSet: { friends: body } },
+          { new: true, runValidators: true }
+        );
+        return res.json(updatedUser);
+      } catch (err) {
+        console.log(err);
+        return res.status(400).json(err);
+      }
+    },
+    // remove a friend from `friends`
+    deleteFriend: async ({ user, params }, res) => {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: user._id },
+        { $pull: { friends: { friendId: params.friendId } } },
+        { new: true }
+      );
+      if (!updatedUser) {
+        return res.status(404).json({ message: "Couldn't find user with this id!" });
+      }
+      return res.json(updatedUser);
+    },
+  }
   };
 module.exports = resolvers;
