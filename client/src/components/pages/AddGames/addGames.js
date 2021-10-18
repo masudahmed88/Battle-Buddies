@@ -1,7 +1,7 @@
 import React from "react";
-import addGame from "../../Game";
+import Game from "../../Game";
 
-const Profile = () => {
+const AddGames = () => {
   return (
     <div className="container-fluid">
       <div className="row ">
@@ -11,4 +11,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default AddGames;
