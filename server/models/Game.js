@@ -19,10 +19,7 @@ const gameSchema = new Schema({
       type: String,
       required: false
     },
-    rating:{
-      type: String,
-      required: false
-    }
+
 });
 const Game = mongoose.model('Game', gameSchema);
 
