@@ -82,6 +82,8 @@ db.once("open", async () => {
     games: [games[1].appid, games[3].appid, games[8].appid, games[12].appid, games[5].appid],
   });
 
+  console.log("games seeded");
+
   await User.create({
     firstName: "Elijah",
     lastName: "Holt",
@@ -93,8 +95,6 @@ db.once("open", async () => {
   });
 
   console.log("users seeded");
-
-  console.log("games seeded");
 
   process.exit();
 });
