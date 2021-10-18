@@ -11,7 +11,6 @@ function Game(item) {
           <img className="card-img-top" src={image} alt="Card image cap" />
           <div className="card-body">
             <h3 className="text-center">{name}</h3>
-            <p className="card-text">{description}</p>
           </div>
         </div>
       </button>
