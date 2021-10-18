@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { UserProvider } from './utils/GlobalState';
+import { UserProvider } from "./utils/GlobalState";
 
 import Home from "./components/pages/Home/home";
 import Profile from "./components/pages/Profile/profile";
@@ -38,26 +38,25 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <div>
-        <UserProvider>
-        <div className="flex-column justify-flex-start min-100-vh">
-          <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
-          <div className="container">
-            <Switch>
-              <Route exact path="/" component = {Home}/>
-          
-              <Route exact path="/login" component={Login}/>
-              
-              <Route exact path="/signup" component ={Signup} />
-          
-              <Route exact path="/me" component = {Profile} />
-          
-              <Route exact path="/profiles/:profileId" component= {Profile} />
-            
-            </Switch>
-          </div>
-          <Footer />
-        </div>
-        </UserProvider>
+          <UserProvider>
+            <div className="flex-column justify-flex-start min-100-vh">
+              <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+              <div className="container">
+                <Switch>
+                  <Route exact path="/" component={Home} />
+
+                  <Route exact path="/login" component={Login} />
+
+                  <Route exact path="/signup" component={Signup} />
+
+                  <Route exact path="/me" component={Profile} />
+
+                  <Route exact path="/profiles/:profileId" component={Profile} />
+                </Switch>
+              </div>
+              <Footer />
+            </div>
+          </UserProvider>
         </div>
       </Router>
     </ApolloProvider>

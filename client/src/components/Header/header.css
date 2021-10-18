@@ -1,4 +1,9 @@
 .jumbotron {
   background-image: url("../../images/jumbotron-image.png");
   background-size: cover;
+  padding-bottom: 200px;
+  color: white;
+}
+.titles{
+  background-color: darkgrey;
 }
