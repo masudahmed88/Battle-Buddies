@@ -26,6 +26,10 @@ git clone from repo.
 
 ## Usage
 
+***DISCLAIMER: DEPLOYED LINK IS NOT WORKING***
+
+### Live link: http://battle-buddies-mnm.herokuapp.com/
+
 ### - To add to repo
 
 1. Clone the repo
