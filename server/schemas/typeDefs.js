@@ -55,6 +55,10 @@ const typeDefs = gql`
       email: String
       password: String 
       isPremium: Boolean): User
+    saveGame(gameID:String):User
+    deleteGame(gameID:String):User
+    saveFriend(friendID:String):User
+    deleteFriend(friendID:String):User
     deleteUser: User
     login(
       email: String! 
