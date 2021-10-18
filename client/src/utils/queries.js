@@ -24,15 +24,6 @@ export const QUERY_USER_FRIENDS = gql`
   }
 `;
 
-export const QUERY_CATEGORIES = gql`
-  {
-    categories {
-      _id
-      name
-    }
-  }
-`;
-
 export const QUERY_USER = gql`
   {
     user {
@@ -40,7 +31,6 @@ export const QUERY_USER = gql`
       lastName
       email
       steamID
-      isPremium
       games {
         name
         appid

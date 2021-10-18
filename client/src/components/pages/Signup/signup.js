@@ -11,24 +11,15 @@ function Signup(props) {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    // let userGamesUrl =`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=76561197964056658&format=json`;
-    // const userGames = await fetch(userGamesUrl);
-    // const userGamesData = await userGames.json();
-
-    // let userFriendsUrl =`http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=4C44FBDE2F2CC241516505D6E7C98887&steamid=76561197964056658&relationship=friend`;
-    // const userFriends = await fetch(userFriendsUrl);
-    // const userFriendsData = await userFriends.json();
-
+   
     const mutationResponse = await addUser({
       variables: {
         email: formState.email,
         password: formState.password,
         firstName: formState.firstName,
         lastName: formState.lastName,
-        steamID: formState.steamID,
-        // games:userGamesData,
-        // friends:userFriendsData
-      },
+        steamID: formState.steamID
+      }
     });
     const token = mutationResponse.data.addUser.token;
     Auth.login(token);

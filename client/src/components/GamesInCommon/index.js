@@ -6,7 +6,7 @@ function GamesInCommon(item) {
 
   return (
     <li className="list-group-item">
-      <img className="" src={image} alt="friends image" />
+      <img className="" src={image} alt="friends icon" />
       <h3 className="text-center">{name}</h3>
     </li>
   );
